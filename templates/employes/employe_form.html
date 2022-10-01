@@ -1,0 +1,29 @@
+{% extends './layout.html'%}
+
+{% block body%}
+
+<div class="container">
+    <h1>nuevo empleado</h1>
+    <form method="POST" action="{{url_for('insertarEmpleado')}}"  enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="dni" class="form-label">DNI</label>
+            <input type="text" class="form-control" name="dni" id="dni">
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="nombre">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
+        <div class="mb-3">
+            <label for="img" class="form-label">Foto</label>
+            <input type="file" class="form-control" name="foto" id="img">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+</div>
+
+{% endblock%}

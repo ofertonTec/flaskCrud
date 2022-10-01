@@ -1,0 +1,52 @@
+{% extends './layout.html'%}
+
+{% block title %} Producto {%endblock%}
+
+{% block body%}
+<div class="container mt-3">
+    <a href="http://" class="btn btn-success">Nuevo Producto</a>
+    <h1>Lista de Productos</h1>
+    {%with messages = get_flashed_messages()%}
+    {%if messages%}
+    {% for message in messages %}
+    <div class="alert alert-successs alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" arial-label="close">
+            <span arial-hidden="true">&times;</span>
+        </button>
+        {{message}}
+    </div>
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">CODIGO</th>
+                <th scope="col">DESCRIPCION</th>
+                <th scope="col">SABOR</th>
+                <th scope="col">TAMAÑO</th>
+                <th scope="col">ENVASE</th>
+                <th scope="col">PRECIO</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in productos %}
+            <tr>
+                <td>{{row.0}}</td>
+                <td>{{row.1}}</td>
+                <td>{{row.2}}</td>
+                <td>{{row.3}}</td>
+                <td>{{row.4}}</td>
+                <td>{{row.5}}</td>
+                <td>
+                    <a href="" class="btn btn-success btn-sm" >Editar</a>
+                    <a href="" class="btn btn-danger btn-sm" >Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock%}

@@ -1,0 +1,126 @@
+{% extends './layout.html'%}
+
+{% block title %}Empleado{% endblock%}
+
+{% block body%}
+
+
+<div class="container mt-3">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Nuevo Empleado</button>
+  <h1>Lista Empleados</h1>
+  {%with messages = get_flashed_messages()%}
+  {%if messages%}
+  {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {%endfor%}
+  {%endif%}
+  {%endwith%}
+  <!--INICIO:Nuevo empleado-->
+  <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo Empleado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{{url_for('insertarEmpleado')}}" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="dni" class="form-label">DNI</label>
+              <input type="text" class="form-control" name="dni" id="dni">
+            </div>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="nombre" id="nombre">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" id="email">
+            </div>
+            <div class="mb-3">
+              <label for="img" class="form-label">Foto</label>
+              <input type="file" class="form-control" name="foto" id="img">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Nuevo Empleado</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIN:Nuevo empleado-->
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">DNI</th>
+        <th scope="col">NOMBRE</th>
+        <th scope="col">CORREO</th>
+        <th scope="col">FOTO</th>
+        <th scope="col">OPCIONES</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for empleado in empleados%}
+      <tr>
+        <td>{{empleado.0}}</td>
+        <td>{{empleado.1}}</td>
+        <td>{{empleado.2}}</td>
+        <td>
+          <img class="img-thumbnail" width="100" height="20px" src="uploads/{{empleado.3}}" alt="">
+        </td>
+        <td>
+          <a href="/editarEmpleado/{{empleado.0}}" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+            data-bs-target="#editarEmpleado{{empleado.0}}">Editar</a>
+          <a href="/eliminarEmpleado/{{empleado.0}}" onclick="confirm('Eliminar el registro?')"
+            class="btn btn-danger btn-sm">Eliminar</a>
+        </td>
+      </tr>
+      <!--INCIO:Edit empleado-->
+      <div class="modal fade" id="editarEmpleado{{empleado.0}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Empleado</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="{{url_for('actualizarEmpleado')}}" enctype="multipart/form-data">
+                <input type="hidden" id="dni" value="{{empleado.0}}">
+                <div class="mb-3">
+                  <label for="dni" class="form-label">DNI</label>
+                  <input value="{{empleado.0}}" type="text" class="form-control" name="dni" id="dni" disabled>
+                  <input value="{{empleado.0}}" type="hidden" class="form-control" name="dni" id="dni">
+                </div>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input value="{{empleado.1}}" type="text" class="form-control" name="nombre" id="nombre">
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input value="{{empleado.2}}" type="email" class="form-control" name="email" id="email">
+                </div>
+                <div class="mb-3">
+                  <label for="img" class="form-label">Foto</label>
+                  <input value="{{empleado.3}}" type="file" class="form-control" name="foto" id="img">
+                  <br>
+                  <img width="100" height="50px" class="img-thumbnail" src="{{url_for('uploads', nombreFoto=empleado.3)}}" alt="">
+                  <br>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN:Edit empleado-->
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
