@@ -9,10 +9,10 @@ app= Flask(__name__)
 app.secret_key = 'many random bytes'
 
 #inicio: coneccion
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'admin01'
-app.config['MYSQL_PASSWORD'] = 'admin01'
-app.config['MYSQL_DB'] = 'ventas'
+app.config['MYSQL_HOST'] = 'sql10.freemysqlhosting.net'
+app.config['MYSQL_USER'] = 'sql10523549'
+app.config['MYSQL_PASSWORD'] = 'bmk23Xvsk7'
+app.config['MYSQL_DB'] = 'sql10523549'
 
 CARPETA= os.path.join('uploads')
 app.config['CARPETA']=CARPETA
@@ -31,7 +31,7 @@ def iniciar():
     cursor.close()
     return render_template('products/product_list.html', productos=data)
 
-
+##INICIO: EMPLEADO
 @app.route('/empleado')
 def mostrarEmpleados():
     cursor= mysql.connection.cursor()
@@ -48,6 +48,7 @@ def mostrarFormEmploye():
 @app.route('/nuevoEmpleado', methods=['POST'])
 def insertarEmpleado():
     if request.method=="POST":
+        
         flash("Empleado insertado exitosamente")
         _dni= request.form['dni']
         _nombre=request.form['nombre']
@@ -96,6 +97,10 @@ def actualizarEmpleado():
         mysql.connection.commit()
         flash('Datos actualizados correctamente')
         return redirect('/empleado')
+##FIN: EMPLEADO
+##INICIO: PRODUCTOS
+
+
 
 
 if __name__ == '__main__':
